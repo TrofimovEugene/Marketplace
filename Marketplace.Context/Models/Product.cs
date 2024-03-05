@@ -17,10 +17,10 @@ namespace Marketplace.Context.Models
 
 		public decimal Price { get; set; }
 
-		public Guid CategoryId { get; set; }
+		public Guid SubcategoryId { get; set; }
 
 		// relationships
 
-		public Category? Category { get; set; }
+		public Subcategory? Subcategory { get; set; }
 	}
 }

@@ -29,44 +29,44 @@ namespace Marketplace.Tests
 			if (productCount > 0)
 			{
 				var products = context.Products
-					.Include(product => product.Category)
+					.Include(product => product.Subcategory)
 					.ToList();
 				foreach (var product in products)
 				{
 					Console.WriteLine($"Name: {product.Name}. Id: {product.ProductId}");
-					Console.WriteLine($"Category Name: {product.Category.NameCategory}. CategoryId: {product.Category.CategoryId}.");
+					Console.WriteLine($"Category Name: {product.Subcategory.NameSubcategory}. CategoryId: {product.Subcategory.SubcategoryId}.");
 					Console.WriteLine();
 				}
 			}
 			else
 			{
-				List<Product> products = new List<Product>
-				{
+				List<Product> products =
+				[
 					new Product {
 						Name = "Teddy Bear",
-						Category = context.Categories.Where(x => x.NameCategory.Equals("Toys")).FirstOrDefault(),
+						Subcategory = context.Subcategories.Where(x => x.NameSubcategory.Equals("Игрушки")).FirstOrDefault(),
 						Price = 150.00M,
 						Description = "It's Teddy Bear!!!"
 					},
 					new Product {
 						Name = "Car",
-						Category = context.Categories.Where(x => x.NameCategory.Equals("Toys")).FirstOrDefault(),
+						Subcategory = context.Subcategories.Where(x => x.NameSubcategory.Equals("Игрушки")).FirstOrDefault(),
 						Price = 250.00M,
 						Description = "It's Audi A5 Coupe!!!"
 					},
 					new Product {
 						Name = "Jacket",
-						Category = context.Categories.Where(x => x.NameCategory.Equals("Clothes")).FirstOrDefault(),
+						Subcategory = context.Subcategories.Where(x => x.NameSubcategory.Equals("Clothes")).FirstOrDefault(),
 						Price = 100.00M,
 						Description = "Jacket"
 					},
 					new Product {
 						Name = "T-Short",
-						Category = context.Categories.Where(x => x.NameCategory.Equals("Clothes")).FirstOrDefault(),
+						Subcategory = context.Subcategories.Where(x => x.NameSubcategory.Equals("Clothes")).FirstOrDefault(),
 						Price = 350.00M,
 						Description = "T-Short"
 					}
-				};
+				];
 
 				context.Products.AddRange(products);
 				context.SaveChanges();

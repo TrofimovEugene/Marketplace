@@ -12,6 +12,8 @@ namespace Marketplace.Context.EFCode
 	{
 		public DbSet<Product> Products { get; set; }
 
+		public DbSet<Subcategory> Subcategories { get; set; }
+
 		public DbSet<Category> Categories { get; set; }
 	}
 }
