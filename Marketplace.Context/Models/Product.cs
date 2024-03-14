@@ -19,8 +19,14 @@ namespace Marketplace.Context.Models
 
 		public Guid SubcategoryId { get; set; }
 
+		public bool AdultOnly { get; set; }
+
+		public uint Count { get; set; }
+
 		// relationships
 
 		public Subcategory? Subcategory { get; set; }
+
+		public ICollection<Specification>? Specifications { get; set; }
 	}
 }
