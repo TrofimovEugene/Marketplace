@@ -1,4 +1,5 @@
 using Marketplace.Context.EFCode;
+using Marketplace.DTO.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -20,6 +21,8 @@ namespace Marketplace
 			var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 			builder.Services.AddDbContext<MarketplaceDbContext>(options => options.UseSqlServer(connection));
+
+			builder.Services.AddScoped<CategoriesService>();
 
 			var app = builder.Build();
 
