@@ -1,14 +1,11 @@
-﻿namespace Marketplace.Context.Models
+﻿namespace Marketplace.DTO.DTO.Subcategory
 {
-	public class Subcategory
+	public class SubcategoryUpdateDTO
 	{
 		public Guid SubcategoryId { get; set; }
 
 		public string NameSubcategory { get; set; }
 
-		//
 		public int CategoryId { get; set; }
-
-		public ICollection<Product>? Products { get; set; }
 	}
 }

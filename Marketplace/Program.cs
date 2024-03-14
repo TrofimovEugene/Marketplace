@@ -1,7 +1,6 @@
 using Marketplace.Context.EFCode;
 using Marketplace.DTO.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Marketplace
 {

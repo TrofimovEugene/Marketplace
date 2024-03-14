@@ -1,10 +1,7 @@
-﻿using Marketplace.Context.EFCode;
-using Marketplace.Context.Models;
-using Marketplace.DTO.DTO;
+﻿using Marketplace.DTO.DTO.Category;
+using Marketplace.DTO.DTO.Subcategory;
 using Marketplace.DTO.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Marketplace.Controllers
 {
@@ -38,19 +35,38 @@ namespace Marketplace.Controllers
 				return BadRequest();
 		}
 
+		[HttpPut]
+		[Route("UpdateCategory")]
+		public IActionResult UpdateCategory(CategoryUpdateDTO category)
+		{
+			if (_categoriesService.UpdateCategory(category)) 
+				return Ok();
+			else
+				return BadRequest();
+		}
+
+		[HttpPut]
+		[Route("UpdateSubcategory")]
+		public IActionResult UpdateSubcategory(SubcategoryUpdateDTO subcategory)
+		{
+			if (_categoriesService.UpdateSubcategory(subcategory))
+				return Ok();
+			else
+				return BadRequest();
+		}
+
 		[HttpGet]
 		[Route("GetCategories")]
-		public List<CategoriesWithSubcategoriesDTO> GetCategories ()
+		public List<CategoriesWithSubcategoriesDTO> GetCategories()
 		{
 			return _categoriesService.GetCategoriesWithSubcategory();
 		}
 
-		// todo:Доделать выдачу подкатегорий у конкретной категории
 		[HttpGet]
-		[Route("GetSubcategories")]
-		public List<SubcategoryDTO> GetSubcategories()
+		[Route("GetSubcategories/{id}")]
+		public List<SubcategoryDTO> GetSubcategories(int id)
 		{
-			return _categoriesService.GetSubcategories();
+			return _categoriesService.GetSubcategories(id);
 		}
 	}
 }
