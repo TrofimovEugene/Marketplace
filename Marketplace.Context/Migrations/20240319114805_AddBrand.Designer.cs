@@ -4,6 +4,7 @@ using Marketplace.Context.EFCode;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marketplace.Context.Migrations
 {
     [DbContext(typeof(MarketplaceDbContext))]
-    partial class MarketplaceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240319114805_AddBrand")]
+    partial class AddBrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,41 +52,13 @@ namespace Marketplace.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
-                    b.Property<string>("AltName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GlobalCategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NameCategory")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryId");
 
-                    b.HasIndex("GlobalCategoryId");
-
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Marketplace.Context.Models.GlobalCategory", b =>
-                {
-                    b.Property<int>("GlobalCategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GlobalCategoryId"));
-
-                    b.Property<string>("AltName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameGlobalCategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("GlobalCategoryId");
-
-                    b.ToTable("GlobalCategories");
                 });
 
             modelBuilder.Entity("Marketplace.Context.Models.Product", b =>
@@ -154,9 +129,6 @@ namespace Marketplace.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AltName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -169,15 +141,6 @@ namespace Marketplace.Context.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Subcategories");
-                });
-
-            modelBuilder.Entity("Marketplace.Context.Models.Category", b =>
-                {
-                    b.HasOne("Marketplace.Context.Models.GlobalCategory", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("GlobalCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Marketplace.Context.Models.Product", b =>
@@ -225,11 +188,6 @@ namespace Marketplace.Context.Migrations
             modelBuilder.Entity("Marketplace.Context.Models.Category", b =>
                 {
                     b.Navigation("Subcategories");
-                });
-
-            modelBuilder.Entity("Marketplace.Context.Models.GlobalCategory", b =>
-                {
-                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Marketplace.Context.Models.Product", b =>

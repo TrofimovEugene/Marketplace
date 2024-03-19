@@ -6,6 +6,8 @@
 
 		public string NameSubcategory { get; set; }
 
+		public string? AltName { get; set; }
+
 		//
 		public int CategoryId { get; set; }
 

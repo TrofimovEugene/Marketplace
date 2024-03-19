@@ -4,6 +4,7 @@ using Marketplace.Context.EFCode;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marketplace.Context.Migrations
 {
     [DbContext(typeof(MarketplaceDbContext))]
-    partial class MarketplaceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240319124930_AddGlobalCategories")]
+    partial class AddGlobalCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,9 +52,6 @@ namespace Marketplace.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
-                    b.Property<string>("AltName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("GlobalCategoryId")
                         .HasColumnType("int");
 
@@ -73,9 +73,6 @@ namespace Marketplace.Context.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GlobalCategoryId"));
-
-                    b.Property<string>("AltName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NameGlobalCategory")
                         .IsRequired()
@@ -153,9 +150,6 @@ namespace Marketplace.Context.Migrations
                     b.Property<Guid>("SubcategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AltName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");

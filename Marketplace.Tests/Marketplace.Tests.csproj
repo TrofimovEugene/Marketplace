@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Marketplace.Context\Marketplace.Context.csproj" />
+    <ProjectReference Include="..\Marketplace.DTO\Marketplace.DTO.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,10 +7,14 @@ namespace Marketplace.Context.EFCode
 	{
 		public DbSet<Product> Products { get; set; }
 
-		public DbSet<Subcategory> Subcategories { get; set; }
+		public DbSet<GlobalCategory> GlobalCategories { get; set; }
 
 		public DbSet<Category> Categories { get; set; }
 
+		public DbSet<Subcategory> Subcategories { get; set; }
+
 		public DbSet<Specification> Specifications { get; set; }
+
+		public DbSet<Brand> Brands { get; set; }
 	}
 }

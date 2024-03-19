@@ -17,7 +17,9 @@ namespace Marketplace.DTO.Services
 		{
 			_context.Categories.Add(new Context.Models.Category
 			{
-				NameCategory = categoryDTO.NameCategory
+				NameCategory = categoryDTO.NameCategory,
+				AltName = categoryDTO.AltName,
+				GlobalCategoryId = categoryDTO.GlobalCategoryId
 			});
 			var count = _context.SaveChangesAsync().Result;
 
@@ -32,6 +34,7 @@ namespace Marketplace.DTO.Services
 			_context.Subcategories.Add(new Context.Models.Subcategory
 			{
 				NameSubcategory = subcategoryDTO.NameSubcategory,
+				AltName = subcategoryDTO.AltName,
 				CategoryId = subcategoryDTO.CategoryId
 			});
 			var count = _context.SaveChangesAsync().Result;
@@ -48,6 +51,8 @@ namespace Marketplace.DTO.Services
 			if (category != null)
 			{
 				category.NameCategory = categoryUpdateDTO.NameCategory;
+				category.AltName = categoryUpdateDTO.AltName;
+				category.GlobalCategoryId = categoryUpdateDTO.GlobalCategoryId;
 				_context.SaveChanges();
 				return true;
 			}
@@ -64,6 +69,7 @@ namespace Marketplace.DTO.Services
 			if (subcategory != null)
 			{
 				subcategory.NameSubcategory = subcategoryUpdateDTO.NameSubcategory;
+				subcategory.AltName = subcategoryUpdateDTO.AltName;
 				subcategory.CategoryId = subcategoryUpdateDTO.CategoryId;
 				_context.SaveChanges();
 				return true;
@@ -87,12 +93,15 @@ namespace Marketplace.DTO.Services
 					Subcategories = new List<SubcategoryWithCategoryDTO>()
 				};
 
-				foreach (var subcategory in category.Subcategories)
+				if (category.Subcategories != null)
 				{
-					categoriesWithSubcategoriesDTO.Subcategories.Add(new SubcategoryWithCategoryDTO
+					foreach (var subcategory in category.Subcategories)
 					{
-						NameSubcategory = subcategory.NameSubcategory
-					});
+						categoriesWithSubcategoriesDTO.Subcategories.Add(new SubcategoryWithCategoryDTO
+						{
+							NameSubcategory = subcategory.NameSubcategory
+						});
+					}
 				}
 
 				result.Add(categoriesWithSubcategoriesDTO);
@@ -107,6 +116,7 @@ namespace Marketplace.DTO.Services
 				subcat => new SubcategoryDTO 
 				{ 
 					NameSubcategory = subcat.NameSubcategory,
+					AltName = subcat.AltName,
 					CategoryId = subcat.CategoryId
 				}).ToList();
 		}

@@ -12,6 +12,8 @@
 
 		public Guid SubcategoryId { get; set; }
 
+		public Guid BrandId { get; set; }
+
 		public bool AdultOnly { get; set; }
 
 		public uint Count { get; set; }
@@ -19,6 +21,8 @@
 		// relationships
 
 		public Subcategory? Subcategory { get; set; }
+
+		public Brand? Brand { get; set; }
 
 		public ICollection<Specification>? Specifications { get; set; }
 	}

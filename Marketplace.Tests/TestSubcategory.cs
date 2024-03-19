@@ -99,7 +99,7 @@ namespace Marketplace.Tests
 		}
 
 		[TestMethod]
-		public void RemoveCategory()
+		public void RemoveCategories()
 		{
 			using var context = CreateNewContext();
 			var categories = context.Categories.ToList();
