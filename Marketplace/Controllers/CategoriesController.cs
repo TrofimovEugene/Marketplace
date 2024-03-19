@@ -1,6 +1,6 @@
 ﻿using Marketplace.DTO.DTO.Category;
 using Marketplace.DTO.DTO.Subcategory;
-using Marketplace.DTO.Services;
+using Marketplace.DTO.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.Controllers
@@ -9,17 +9,17 @@ namespace Marketplace.Controllers
 	[ApiController]
 	public class CategoriesController : ControllerBase
 	{
-		private readonly CategoriesService _categoriesService;
-		public CategoriesController(CategoriesService categoriesService) 
+		private ICategoriesRepository _categoriesRepository;
+		public CategoriesController(ICategoriesRepository categoriesRepository) 
 		{
-			_categoriesService = categoriesService;
+			_categoriesRepository = categoriesRepository;
 		}
 
 		[HttpPost]
 		[Route("CreateCategory")]
 		public IActionResult CreateCategory(CategoryDTO category)
 		{
-			if (_categoriesService.CreateCategory(category))
+			if (_categoriesRepository.CreateCategory(category))
 				return Ok();
 			else
 				return BadRequest();
@@ -29,7 +29,7 @@ namespace Marketplace.Controllers
 		[Route("CreateSubcategory")]
 		public IActionResult CreateSubcategory(SubcategoryDTO subcategory)
 		{
-			if (_categoriesService.CreateSubategory(subcategory))
+			if (_categoriesRepository.CreateSubcategory(subcategory))
 				return Ok();
 			else
 				return BadRequest();
@@ -39,7 +39,7 @@ namespace Marketplace.Controllers
 		[Route("UpdateCategory")]
 		public IActionResult UpdateCategory(CategoryUpdateDTO category)
 		{
-			if (_categoriesService.UpdateCategory(category)) 
+			if (_categoriesRepository.UpdateCategory(category)) 
 				return Ok();
 			else
 				return BadRequest();
@@ -49,24 +49,24 @@ namespace Marketplace.Controllers
 		[Route("UpdateSubcategory")]
 		public IActionResult UpdateSubcategory(SubcategoryUpdateDTO subcategory)
 		{
-			if (_categoriesService.UpdateSubcategory(subcategory))
+			if (_categoriesRepository.UpdateSubcategory(subcategory))
 				return Ok();
 			else
 				return BadRequest();
 		}
 
 		[HttpGet]
-		[Route("GetCategories")]
-		public List<CategoriesWithSubcategoriesDTO> GetCategories()
+		[Route("GetCategories/{id}")]
+		public List<CategoriesWithSubcategoriesDTO> GetCategories(int id)
 		{
-			return _categoriesService.GetCategoriesWithSubcategory();
+			return _categoriesRepository.GetCategoriesWithSubcategories(id);
 		}
 
 		[HttpGet]
 		[Route("GetSubcategories/{id}")]
 		public List<SubcategoryDTO> GetSubcategories(int id)
 		{
-			return _categoriesService.GetSubcategories(id);
+			return _categoriesRepository.GetSubcategories(id);
 		}
 	}
 }
