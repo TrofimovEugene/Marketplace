@@ -13,6 +13,19 @@ namespace Marketplace
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
+			builder.Services.AddCors(options =>
+				{
+					options.AddDefaultPolicy(
+						policy =>
+						{
+							policy.WithOrigins("https://localhost:7104", "http://localhost:3000")
+								.AllowAnyHeader()
+								.AllowAnyMethod()
+								.AllowCredentials();
+						});
+				}
+				);
+
 			// Add services to the container.
 
 			builder.Services.AddControllers();
@@ -40,6 +53,8 @@ namespace Marketplace
 			}
 
 			app.UseHttpsRedirection();
+
+			app.UseCors();
 
 			app.UseAuthorization();
 
