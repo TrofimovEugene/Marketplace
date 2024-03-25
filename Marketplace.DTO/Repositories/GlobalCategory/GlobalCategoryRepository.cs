@@ -2,25 +2,27 @@
 using Marketplace.DTO.DTO.Category;
 using Marketplace.DTO.DTO.GlobalCategory;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Marketplace.DTO.Services.GlobalCategory
+namespace Marketplace.DTO.Repositories.GlobalCategory
 {
-	public class GlobalCategoryService : IGlobalCategoryService
+	public class GlobalCategoryRepository : IGlobalCategoryRepository
 	{
 		private readonly MarketplaceDbContext _marketplaceDbContext;
-		public GlobalCategoryService(MarketplaceDbContext marketplaceDbContext) 
+		public GlobalCategoryRepository(MarketplaceDbContext marketplaceDbContext) 
 		{
 			_marketplaceDbContext = marketplaceDbContext;
 		}
 
+		public bool CheckExistsGlobalCategory(int globalCategoryId)
+		{
+			return _marketplaceDbContext.GlobalCategories.Any(x => x.GlobalCategoryId == globalCategoryId);
+		}
+
 		public List<GlobalCategoryDTO> GetGlobalCategories()
 		{
-			return _marketplaceDbContext.GlobalCategories.Select(gc => new GlobalCategoryDTO()
+			return _marketplaceDbContext.GlobalCategories
+				.AsNoTracking()
+				.Select(gc => new GlobalCategoryDTO()
 			{
 				NameGlobalCategory = gc.NameGlobalCategory,
 				AltName = gc.AltName,
@@ -30,7 +32,10 @@ namespace Marketplace.DTO.Services.GlobalCategory
 
 		public List<GlobalCategoriesWithCategoriesDTO> GetGlobalCategoriesWithCategories()
 		{
-			return _marketplaceDbContext.GlobalCategories.Include(x => x.Categories).Select(x => new GlobalCategoriesWithCategoriesDTO()
+			return _marketplaceDbContext.GlobalCategories
+				.AsNoTracking()
+				.Include(x => x.Categories)
+				.Select(x => new GlobalCategoriesWithCategoriesDTO()
 			{
 				NameGlobalCategory = x.NameGlobalCategory,
 				AltName = x.AltName,

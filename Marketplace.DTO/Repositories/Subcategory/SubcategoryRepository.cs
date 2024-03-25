@@ -1,13 +1,14 @@
 ﻿using Marketplace.Context.EFCode;
 using Marketplace.DTO.DTO.Subcategory;
+using Microsoft.EntityFrameworkCore;
 
-namespace Marketplace.DTO.Services.Subcategory
+namespace Marketplace.DTO.Repositories.Subcategory
 {
-	public class SubcategoryService : ISubcategoryService
+	public class SubcategoryRepository : ISubcategoryRepository
 	{
 		private readonly MarketplaceDbContext _marketplaceDbContext;
 
-		public SubcategoryService(MarketplaceDbContext marketplaceDbContext)
+		public SubcategoryRepository(MarketplaceDbContext marketplaceDbContext)
 		{
 			_marketplaceDbContext = marketplaceDbContext;
 		}
@@ -48,13 +49,21 @@ namespace Marketplace.DTO.Services.Subcategory
 
 		public List<SubcategoryDTO> GetSubcategories(int categoryId)
 		{
-			return _marketplaceDbContext.Subcategories.Where(x => x.CategoryId == categoryId).Select(
+			return _marketplaceDbContext.Subcategories
+				.AsNoTracking()
+				.Where(x => x.CategoryId == categoryId)
+				.Select(
 				subcat => new SubcategoryDTO
 				{
 					NameSubcategory = subcat.NameSubcategory,
 					AltName = subcat.AltName,
 					CategoryId = subcat.CategoryId
 				}).ToList();
+		}
+
+		public bool CheckExistsSubcategory(Guid subcategoryId)
+		{
+			return _marketplaceDbContext.Subcategories.Any(x => x.SubcategoryId == subcategoryId);
 		}
 	}
 }

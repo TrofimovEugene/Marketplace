@@ -1,13 +1,13 @@
 using Marketplace.Context.EFCode;
-using Marketplace.DTO.Repositories;
-using Marketplace.DTO.Services.Category;
-using Marketplace.DTO.Services.GlobalCategory;
-using Marketplace.DTO.Services.Subcategory;
+using Marketplace.DTO.Repositories.Category;
+using Marketplace.DTO.Repositories.GlobalCategory;
+using Marketplace.DTO.Repositories.Subcategory;
+using Marketplace.DTO.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Marketplace
 {
-    public class Program
+	public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -24,11 +24,11 @@ namespace Marketplace
 
 			builder.Services.AddDbContext<MarketplaceDbContext>(options => options.UseSqlServer(connection));
 
-			builder.Services.AddScoped<IGlobalCategoryService, GlobalCategoryService>();
-			builder.Services.AddScoped<ICategoriesService, CategoriesService>( );
-			builder.Services.AddScoped<ISubcategoryService, SubcategoryService>( );
-
+			builder.Services.AddScoped<IGlobalCategoryRepository, GlobalCategoryRepository>();
 			builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>( );
+			builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>( );
+
+			builder.Services.AddScoped<ICategoriesService, CategoriesService>( );
 
 			var app = builder.Build();
 

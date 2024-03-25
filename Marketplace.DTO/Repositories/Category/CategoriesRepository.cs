@@ -2,12 +2,12 @@
 using Marketplace.DTO.DTO.Category;
 using Microsoft.EntityFrameworkCore;
 
-namespace Marketplace.DTO.Services.Category
+namespace Marketplace.DTO.Repositories.Category
 {
-	public class CategoriesService : ICategoriesService
+	public class CategoriesRepository : ICategoriesRepository
     {
         private readonly MarketplaceDbContext _context;
-        public CategoriesService(MarketplaceDbContext context)
+        public CategoriesRepository(MarketplaceDbContext context)
         {
             _context = context;
         }
@@ -48,6 +48,7 @@ namespace Marketplace.DTO.Services.Category
         public List<CategoriesWithSubcategoriesDTO> GetCategoriesWithSubcategory(int globalCategoryId)
         {
             return _context.Categories
+                .AsNoTracking()
                 .Where(x => x.GlobalCategoryId == globalCategoryId)
                 .Include(x => x.Subcategories)
                 .Select(cat => new CategoriesWithSubcategoriesDTO
@@ -65,6 +66,7 @@ namespace Marketplace.DTO.Services.Category
 		public List<CategoryDTO> GetCategories(int globalCategoryId)
 		{
 			return _context.Categories
+                .AsNoTracking()
                 .Where(x => x.GlobalCategoryId == globalCategoryId)
                 .Select(cat => new CategoryDTO 
             { 
@@ -72,6 +74,11 @@ namespace Marketplace.DTO.Services.Category
                 AltName = cat.AltName,
                 GlobalCategoryId = cat.GlobalCategoryId,
             }).ToList();
+		}
+
+		public bool CheckExistsCategory(int categoryId)
+		{
+			return _context.Categories.Any(x => x.CategoryId == categoryId);
 		}
 	}
 }

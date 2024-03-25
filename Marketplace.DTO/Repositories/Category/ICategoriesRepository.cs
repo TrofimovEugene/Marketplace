@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Marketplace.DTO.Services.Category
+namespace Marketplace.DTO.Repositories.Category
 {
-	public interface ICategoriesService
+	public interface ICategoriesRepository
 	{
 		public bool CreateCategory(CategoryDTO categoryDTO);
 
@@ -16,5 +16,7 @@ namespace Marketplace.DTO.Services.Category
 		public List<CategoryDTO> GetCategories(int globalCategoryId);
 
 		public List<CategoriesWithSubcategoriesDTO> GetCategoriesWithSubcategory(int globalCategoryId);
+
+		public bool CheckExistsCategory(int categoryId);
 	}
 }

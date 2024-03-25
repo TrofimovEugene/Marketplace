@@ -2,9 +2,9 @@
 using Marketplace.DTO.DTO.GlobalCategory;
 using Marketplace.DTO.DTO.Subcategory;
 
-namespace Marketplace.DTO.Repositories
+namespace Marketplace.DTO.Services
 {
-	public interface ICategoriesRepository
+	public interface ICategoriesService
 	{
 		public List<GlobalCategoryDTO> GetGlobalCategories();
 

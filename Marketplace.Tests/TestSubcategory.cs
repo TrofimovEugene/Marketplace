@@ -1,5 +1,6 @@
 using Marketplace.Context.EFCode;
-using Marketplace.Context.Models;
+using Marketplace.DTO.DTO.Subcategory;
+using Marketplace.DTO.Repositories.Subcategory;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework.Internal;
 
@@ -9,102 +10,88 @@ namespace Marketplace.Tests
 	public class TestSubcategory
 	{
 		const string connection = "Server=(localdb)\\mssqllocaldb;Database=MarketplaceDB;Trusted_Connection=True;MultipleActiveResultSets=true";
-		[TestMethod]
-		public void TestMethod1()
+		MarketplaceDbContext dbContext;
+		ISubcategoryRepository subcategoryService;
+
+		public TestSubcategory()
 		{
-			using var context = CreateNewContext();
-
-			var categoriesCount = context.Subcategories.Where(x => x.CategoryId == 1).Count();
-			var category = context.Categories.Where(x => x.NameCategory.Equals("Детские товары")).FirstOrDefault();
-			if (categoriesCount == 0 && category != null)
-			{
-				context.Subcategories.AddRange(new List<Subcategory>() 
-				{
-					new Subcategory()
-					{
-						NameSubcategory = "Игрушки",
-						CategoryId = category.CategoryId
-					},
-					new Subcategory()
-					{
-						NameSubcategory = "Одежда",
-						CategoryId = category.CategoryId
-					},
-					new Subcategory()
-					{
-						NameSubcategory = "Мебель",
-						CategoryId = category.CategoryId
-					}
-				});
-				context.SaveChanges();
-			}
-			categoriesCount = context.Subcategories.Where(x => x.CategoryId == 2).Count();
-			category = context.Categories.Where(x => x.NameCategory.Equals("Одежда, обувь и аксессуары")).FirstOrDefault();
-			if (categoriesCount == 0 && category != null)
-			{
-				context.Subcategories.AddRange(new List<Subcategory>()
-				{
-					new Subcategory()
-					{
-						NameSubcategory = "Обувь",
-						CategoryId = category.CategoryId
-					},
-					new Subcategory()
-					{
-						NameSubcategory = "Одежда",
-						CategoryId = category.CategoryId
-					},
-					new Subcategory()
-					{
-						NameSubcategory = "Аксессуары",
-						CategoryId = category.CategoryId
-					}
-				});
-				context.SaveChanges();
-			}
-
-			var categories = context.Subcategories.ToList();
-			foreach (var cat in categories)
-				Console.WriteLine($"Name: {cat.NameSubcategory}. Id: {cat.SubcategoryId}");
+			dbContext = CreateNewContext();
+			subcategoryService = new SubcategoryRepository(dbContext);
 		}
 
 		[TestMethod]
-		public void AddCategory()
+		public void GetSubcategories()
 		{
-			using var context = CreateNewContext();
-
-			var categoriesCount = context.Categories.Count();
-			Console.WriteLine(categoriesCount);
-			if (categoriesCount == 0)
+			var subcategories = subcategoryService.GetSubcategories(6);
+			Assert.IsNotNull(subcategories);
+			if (subcategories.Count > 0) 
 			{
-				context.Categories.AddRange(new List<Category> { 
-					new Category()
-					{
-						NameCategory = "Детские товары"
-					}, 
-					new Category()
-					{
-						NameCategory = "Одежда, обувь и аксессуары"
-					}
-				});
-				context.SaveChanges();
+				foreach (var subcategory in subcategories)
+					Console.WriteLine($"Подкатегория: {subcategory.NameSubcategory}. Категории Id: {subcategory.CategoryId}");
 			}
-			else
-			{
-				var categories = context.Categories.ToList();
-				foreach (var cat in categories)
-					Console.WriteLine($"Name: {cat.NameCategory}. Id: {cat.CategoryId}");
-			}
-
 		}
 
 		[TestMethod]
-		public void RemoveCategories()
+		public void AddSubcategories()
 		{
-			using var context = CreateNewContext();
-			var categories = context.Categories.ToList();
-			context.Categories.RemoveRange(categories);
-			context.SaveChanges();
+			List<SubcategoryDTO> subcategoryDTOs = new List<SubcategoryDTO>() 
+			{
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Смартфоны",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Аксессуары для смартфонов и телефонов",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Смарт-часы",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Фитнес-браслеты",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Ремешки для смарт-часов и фитнес-браслетов",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Аксессуары для смарт-часов и фитнес-браслетов",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Мобильные телефоны",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "SIM-карты",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Запчасти",
+					CategoryId = 6
+				},
+				new SubcategoryDTO()
+				{
+					NameSubcategory = "Проводные и радиотелефоны",
+					CategoryId = 6
+				}
+			};
+
+			foreach (SubcategoryDTO subcategory in subcategoryDTOs)
+			{
+				subcategoryService.CreateSubategory(subcategory);
+			}
 		}
 
 		public MarketplaceDbContext CreateNewContext()

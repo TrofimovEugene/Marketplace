@@ -1,6 +1,7 @@
 ﻿using Marketplace.DTO.DTO.Category;
+using Marketplace.DTO.DTO.GlobalCategory;
 using Marketplace.DTO.DTO.Subcategory;
-using Marketplace.DTO.Repositories;
+using Marketplace.DTO.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.Controllers
@@ -9,8 +10,8 @@ namespace Marketplace.Controllers
 	[ApiController]
 	public class CategoriesController : ControllerBase
 	{
-		private ICategoriesRepository _categoriesRepository;
-		public CategoriesController(ICategoriesRepository categoriesRepository) 
+		private ICategoriesService _categoriesRepository;
+		public CategoriesController(ICategoriesService categoriesRepository) 
 		{
 			_categoriesRepository = categoriesRepository;
 		}
@@ -67,6 +68,20 @@ namespace Marketplace.Controllers
 		public List<SubcategoryDTO> GetSubcategories(int id)
 		{
 			return _categoriesRepository.GetSubcategories(id);
+		}
+
+		[HttpGet]
+		[Route("GetGlobalCategories")]
+		public List<GlobalCategoryDTO> GetGlobalCategories()
+		{
+			return _categoriesRepository.GetGlobalCategories();
+		}
+
+		[HttpGet]
+		[Route("GetGlobalCategoriesWithCategories")]
+		public List<GlobalCategoriesWithCategoriesDTO> GetGlobalCategoriesWithCategories()
+		{
+			return _categoriesRepository.GetGlobalCategoriesWithCategories();
 		}
 	}
 }

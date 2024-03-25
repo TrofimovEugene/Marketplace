@@ -1,12 +1,6 @@
 ﻿using Marketplace.Context.EFCode;
-using Marketplace.DTO.Services.GlobalCategory;
+using Marketplace.DTO.Repositories.GlobalCategory;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Marketplace.Tests
 {
@@ -15,12 +9,12 @@ namespace Marketplace.Tests
 	{
 		const string connection = "Server=(localdb)\\mssqllocaldb;Database=MarketplaceDB;Trusted_Connection=True;MultipleActiveResultSets=true";
 		MarketplaceDbContext dbContext;
-		IGlobalCategoryService globalCategoryService;
+		IGlobalCategoryRepository globalCategoryService;
 
 		public TestGlobalCategory()
 		{
 			dbContext = CreateNewContext();
-			globalCategoryService = new GlobalCategoryService(dbContext);
+			globalCategoryService = new GlobalCategoryRepository(dbContext);
 		}
 
 		[TestMethod]

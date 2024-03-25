@@ -1,11 +1,13 @@
 ﻿using Marketplace.DTO.DTO.GlobalCategory;
 
-namespace Marketplace.DTO.Services.GlobalCategory
+namespace Marketplace.DTO.Repositories.GlobalCategory
 {
-	public interface IGlobalCategoryService
+	public interface IGlobalCategoryRepository
 	{
 		public List<GlobalCategoryDTO> GetGlobalCategories();
 
 		public List<GlobalCategoriesWithCategoriesDTO> GetGlobalCategoriesWithCategories();
+
+		public bool CheckExistsGlobalCategory(int globalCategoryId);
 	}
 }
